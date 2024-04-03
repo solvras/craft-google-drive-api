@@ -1,0 +1,46 @@
+{
+    "name": "solvr-as/craft-google-docs-api",
+    "type": "craft-plugin",
+    "version": "1.0.0",
+    "license": "mit",
+    "support": {
+        "email": "utviklere@solvr.no"
+    },
+    "require": {
+        "php": ">=8.0.2",
+        "craftcms/cms": "^3.9.0",
+        "google/apiclient": "^2.15"
+    },
+    "require-dev": {
+        "craftcms/ecs": "dev-main",
+        "craftcms/phpstan": "dev-main"
+    },
+    "autoload": {
+        "psr-4": {
+            "solvras\\craftgoogledocsapi\\": "src/"
+        }
+    },
+    "extra": {
+        "handle": "google-docs-api",
+        "name": "Google Docs Api ",
+        "developer": "Solvr AS",
+        "documentationUrl": "",
+        "class": "solvras\\craftgoogledocsapi\\GoogleDocs"
+    },
+    "scripts": {
+        "check-cs": "ecs check --ansi",
+        "fix-cs": "ecs check --ansi --fix",
+        "phpstan": "phpstan --memory-limit=1G"
+    },
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "8.0.2"
+        },
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true,
+            "craftcms/plugin-installer": true
+        }
+    }
+}
+
