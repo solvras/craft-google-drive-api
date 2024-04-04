@@ -47,7 +47,7 @@ class ApiController extends Controller
         $fileName = $postData['slug'] ?? null;
         $entryId = $postData['entryId'] ?? null;
         $url = $postData['url'] ?? null;
-        $htmlContent = file_get_contents($url);
+        $htmlContent = file_get_contents($url, false);
 
         if (!$fileName|| !$entryId) {
             return $this->asJson([
