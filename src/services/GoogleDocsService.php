@@ -110,13 +110,15 @@ class GoogleDocsService extends Component
         $existingFile = $this->fileExistsInDrive($fileName, $folderId);
         $metaData = new Drive\DriveFile([
             'name' => $fileName,
+            'driveId' => App::env('GOOGLE_SHARED_DRIVE_ID'),
             'mimeType' => 'application/vnd.google-apps.document',
         ]);
 
         $params = [
             'data' => $htmlContent,
             'mimeType' => 'text/html',
-            'uploadType' => 'media'
+            'uploadType' => 'media',
+            'supportsAllDrives' => true
         ];
 
         $operation = empty($existingFile) ? 'create' : 'update';
@@ -164,12 +166,20 @@ class GoogleDocsService extends Component
 
         $metaData = new Drive\DriveFile([
             'name' => $folderName,
+            'driveId' => App::env('GOOGLE_SHARED_DRIVE_ID'),
             'mimeType' => $mimeType,
             'parents' => [$parentFolderId]
         ]);
 
-        $folder = $this->driveService->files->create($metaData);
-        return $folder->getId();
+        try {
+            $folder = $this->driveService->files->create($metaData, array(
+                'supportsAllDrives' => true,
+            ));
+            return $folder->id;
+        } catch (\Exception $e) {
+            Craft::dd($e->getMessage());
+        }
+        return $folder->id;
     }
 
     /**
@@ -207,13 +217,18 @@ class GoogleDocsService extends Component
         ?string $mimeType = null
     ): array {
         $query = "mimeType='$mimeType' and name='$name' and '$folderId' in parents";
-
-        $params =  $folderId ? [
+        $mixins = [
+            'supportsAllDrives' => true,
+            'includeItemsFromAllDrives' => true,
+            'driveId' => App::env('GOOGLE_SHARED_DRIVE_ID'),
+            'corpora' => 'drive'
+        ];
+        $params =  $folderId ? array_merge([
             'q' => $query,
             'fields' => 'files(id)',
-        ] : [
+        ], $mixins) : array_merge([
             'q' => "mimeType='application/vnd.google-apps.folder' and name='$name'",
-        ];
+        ], $mixins);
         $result = $this->driveService->files->listFiles($params);
         return $result->getFiles();
     }
@@ -230,6 +245,10 @@ class GoogleDocsService extends Component
         $params = [
             'q' => "'$folderId' in parents and name = '$name' and trashed = false",
             'fields' => 'files(id)',
+            'supportsAllDrives' => true,
+            'includeItemsFromAllDrives' => true,
+            'driveId' => App::env('GOOGLE_SHARED_DRIVE_ID'),
+            'corpora' => 'drive'
         ];
         $result = $this->driveService->files->listFiles($params);
         return $result->getFiles();
