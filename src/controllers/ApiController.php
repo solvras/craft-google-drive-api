@@ -15,7 +15,7 @@ class ApiController extends Controller
 {
     public $defaultAction = 'index';
     // protected array|int|bool $allowAnonymous = self::ALLOW_ANONYMOUS_NEVER;
-    protected $allowAnonymous = ['save-document'];
+    protected array|int|bool $allowAnonymous = ['save-document'];
 
     /**
      * google-docs-api/api action

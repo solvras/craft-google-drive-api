@@ -25,8 +25,8 @@ use solvras\craftgoogledocsapi\widgets\PreviewURL as PreviewURLWidget;
  */
 class GoogleDocs extends Plugin
 {
-    public $schemaVersion = '1.0.1';
-    public $hasCpSettings = false;
+    public string $schemaVersion = '1.0.1';
+    public bool $hasCpSettings = false;
 
     public static function config(): array
     {

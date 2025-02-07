@@ -18,7 +18,7 @@ class PreviewURL extends Widget
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
     }
@@ -26,7 +26,7 @@ class PreviewURL extends Widget
     /**
      * @inheritdoc
      */
-    public function getBodyHtml()
+    public function getBodyHtml(): ?string
     {
         $view = Craft::$app->getView();
  
