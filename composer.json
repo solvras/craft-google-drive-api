@@ -1,7 +1,7 @@
 {
     "name": "solvr-as/craft-google-docs-api",
     "type": "craft-plugin",
-    "version": "1.0.3",
+    "version": "2.0.0",
     "license": "mit",
     "support": {
         "email": "utviklere@solvr.no"
